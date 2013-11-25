@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://10.42.0.1:3000/ -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Pizarron Web en Tiempo Real | CICE 2013</title>
+<link rel="stylesheet" href="/stylesheets/style.css"><script src="/socket.io/socket.io.js"></script>
+<script src="/javascripts/lib/zepto.js"></script><script src="/javascripts/lib/paper.js"></script><script src="/javascripts/canvas.js" type="text/paperscript" canvas="myCanvas"></script>
+
+</head>
+<body>
+<nav><ul><li><a>Previous Sessions</a></li><li><a>About</a></li></ul></nav>
+<article>Realtime Web-based smartboard</article>
+<div id="controls">
+    <div id="userCountWrapper" style="opacity: 1;">People online:<span id="userCount"></span>
+    </div>
+    <div data-color="47,47,47" style="background:rgb(37,37,37);" class="color">
+    </div>
+    <div data-color="109,73,37" style="background:rgb(109,73,37);" class="color active">
+    </div>
+    <div data-color="233,34,41" style="background:rgb(233,34,41);" class="color">
+    </div>
+    <div data-color="57,178,73" style="background:rgb(57,178,73);" class="color">
+    </div>
+    <div data-color="247,219,31" style="background:rgb(247,219,31);" class="color">
+    </div>
+    <div data-color="248,172,60" style="background:rgb(248,172,60);" class="color">
+    </div>
+    <div data-color="142,42,140" style="background:rgb(142,42,140);" class="color">
+    </div>
+    <div data-color="77,42,255" style="background:rgb(77,42,255);" class="color">
+    </div>
+    <div data-color="255,255,255" style="background:rgb(255,255,255);" class="color">
+    </div>
+    <label>Opacity<input type="range" min="0" max="255" value="200" id="opacity"></label>
+    <input type="button" value="Clear" onClick="borrar()" >
+    
+</div>
+<canvas id="myCanvas" resize="true" width="1280" height="557"></canvas>
+</body>
+</html>
