@@ -141,6 +141,34 @@ int serialport_read_until(int fd, char* buf, char until, int buf_max, int timeou
     return 0;
 }
 
+int serialport_read_mouse(int fd, unsigned int &cox, unsigned int &coy)//, unsigned int &clickr, unsigned int &clickl)
+{
+   unsigned int b[1], c[1], cl[1],cr[1]; // read expects an array, so we give it a 1-byte array
+cox=0;coy=0;
+//clickr=0;clickl=0;
+ 	b[0] = 0; c[0] = 0;
+
+        /*if(  ) {+
+            usleep( 1 * 1000 );  // wait 1 msec try again
+	}else{*/
+read(fd, b, 1);
+cox = b[0];
+printf("cx:%d \n",cox);
+read(fd, c, 1);
+coy = c[0];
+printf("cy:%d \n",coy);
+/*read(fd, cl, 1);
+clickl = cl[0];
+printf("cl:%d \n",clickl);
+read(fd, cr, 1);
+clickr = cr[0]; 
+printf("cr:%d \n",clickr);*/   
+
+//if( n==-1) return -1;
+    return 0;
+}
+
+
 //
 int serialport_flush(int fd)
 {

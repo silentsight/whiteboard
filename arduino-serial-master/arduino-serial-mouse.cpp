@@ -47,6 +47,7 @@
  */
 
 #include <stdio.h>    // Standard input/output definitions 
+
 #include <stdlib.h> 
 #include <string.h>   // String function definitions 
 #include <unistd.h>   // for usleep()
@@ -95,11 +96,62 @@ void mouseMove(int x, int y)
 {
     Display *displayMain = XOpenDisplay(NULL);
 
-    XWarpPointer(displayMain, None, None, 0, 0, 0, 0, -x, -y);
+    XWarpPointer(displayMain, None, None, 0, 0, 0, 0, x, y);
 
     XCloseDisplay(displayMain);
 }
-
+void
+coords (Display *display, int *x, int *y)
+{
+  XEvent event;
+  XQueryPointer (display, DefaultRootWindow (display),
+                 &event.xbutton.root, &event.xbutton.window,
+                 &event.xbutton.x_root, &event.xbutton.y_root,
+                 &event.xbutton.x, &event.xbutton.y,
+                 &event.xbutton.state);
+  *x = event.xbutton.x;
+  *y = event.xbutton.y;
+}
+void
+move_to (Display *display, int x, int y)
+{
+  int cur_x, cur_y;
+  coords (display, &cur_x, &cur_y);
+  XWarpPointer (display, None, None, 0,0,0,0, -cur_x, -cur_y);
+  XWarpPointer (display, None, None, 0,0,0,0, x, y);
+  usleep (1);
+}
+void
+click (Display *display, int button)
+{
+  // Create and setting up the event
+  XEvent event;
+  memset (&event, 0, sizeof (event));
+  event.xbutton.button = button;
+  event.xbutton.same_screen = True;
+  event.xbutton.subwindow = DefaultRootWindow (display);
+  while (event.xbutton.subwindow)
+    {
+      event.xbutton.window = event.xbutton.subwindow;
+      XQueryPointer (display, event.xbutton.window,
+		     &event.xbutton.root, &event.xbutton.subwindow,
+		     &event.xbutton.x_root, &event.xbutton.y_root,
+		     &event.xbutton.x, &event.xbutton.y,
+		     &event.xbutton.state);
+    }
+  // Press
+  event.type = ButtonPress;
+  if (XSendEvent (display, PointerWindow, True, ButtonPressMask, &event) == 0)
+    fprintf (stderr, "Error to send the event!\n");
+  XFlush (display);
+  usleep (1);
+  // Release
+  event.type = ButtonRelease;
+  if (XSendEvent (display, PointerWindow, True, ButtonReleaseMask, &event) == 0)
+    fprintf (stderr, "Error to send the event!\n");
+  XFlush (display);
+  usleep (1);
+}
 int main(int argc, char *argv[]) 
 {
     const int buf_max = 256;
@@ -111,8 +163,9 @@ int main(int argc, char *argv[])
     char eolchar = '\n';
     int timeout = 5000;
     char buf[buf_max];
+	int buf2[buf_max];
     int rc,n;
-	char cx[3], cy[3];
+	int cx=0, cy=0;
 
     if (argc==1) {
         usage();
@@ -134,11 +187,12 @@ int main(int argc, char *argv[])
         {"eolchar",    required_argument, 0, 'e'},
         {"timeout",    required_argument, 0, 't'},
         {"quiet",      no_argument,       0, 'q'},
+	{"move",      no_argument,       0, 'm'},
         {NULL,         0,                 0, 0}
     };
     
     while(1) {
-        opt = getopt_long (argc, argv, "hcp:b:s:S:rFn:d:qe:t:",
+        opt = getopt_long (argc, argv, "hcp:b:s:S:rFn:d:qe:t:m",
                            loptions, &option_index);
         if (opt==-1) break;
         switch (opt) {
@@ -205,21 +259,46 @@ int main(int argc, char *argv[])
             break;
 	case 'c':
 		if( fd == -1 ) error("serial port not opened");
-		memset(buf,0,buf_max); 
-//while(1){ To recollect data infinitely           	
-		serialport_read_until(fd, buf, eolchar, buf_max, timeout);
-		int fx=0;int i,j=0;
-		
-printf("Hey listen");
-		while((buf[i]!=':') && !fx && i!=sizeof(buf)){cx[i]=buf[i]; i++; printf("Cx:\n",cx);}
-		if(buf[i]==':'){fx=1;}
-		while((buf[i]!=':') && fx && i!=sizeof(buf)){cy[j]=buf[i];j++;i++; printf("Cy:\n",cy);}
-		
-		
-		printf("Buffer: %s, Cx: %s, Cy: %s",buf, cx, cy);
-		mouseMove((int)(cx),(int)(cy));
-//}
+		memset(buf2,0,buf_max); 
+while(1){ //To recollect data infinitely   
+ 	
+	unsigned static int posX = 0;
+        unsigned static int posY = 0;
+	unsigned int lastX = posX;
+        unsigned int lastY = posY;
+	//unsigned static int clickl=0, clickr=0;
+
+	serialport_read_mouse(fd, posX, posY);//, clickr, clickl);
+
+        if(lastX>0 && lastY>0 && posX>0 && posY>0)
+        {
+            //printf("position (%d,%d)\n and clicks left:%d right:%d \n", posX-lastX, -posY+lastY, clickl, clickr);
+
+            mouseMove(posX-lastX,-posY+lastY);
+        }
+
+
+		//mouseMove(cx,cy); //Be careful read X11 manpages
+//printf("Cx is: %d \n",cx);
+//printf("Cy is: %d \n",cy);
+//
+
+} //click(NULL,1);
 		break;
+	case 'm' :
+	int i=0,j=0;
+	for(i=0;i<=30;i++){
+	j=i;
+	mouseMove(i-j,i+j);
+	
+	}
+	/*for(i=0;i<=30;i++){
+	mouseMove(i,-i);}
+	for(i=0;i<=30;i++){
+	mouseMove(-i,i);}
+	for(i=0;i<=30;i++){
+	mouseMove(-i,-i);}*/
+	break;
         }
     }
 
