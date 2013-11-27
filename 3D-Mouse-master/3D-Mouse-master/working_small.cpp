@@ -14,11 +14,13 @@ IplImage* GetThresholdedImage(IplImage* img)
 
     
     IplImage* imgHSV = cvCreateImage(cvGetSize(img), 8, 3);
-    cvCvtColor(img, imgHSV, CV_BGR2HSV);
+  cvCvtColor(img, imgHSV, CV_BGR2HSV);
 
     IplImage* imgThreshed = cvCreateImage(cvGetSize(img), 8, 1);
-    cvInRangeS(imgHSV, cvScalar(15, 130, 130), cvScalar(30, 255, 255), imgThreshed);
-    cvReleaseImage(&imgHSV);
+  cvInRangeS(imgHSV, cvScalar(15, 130, 130), cvScalar(30, 255, 255),
+//cvInRangeS(imgHSV, cvScalar(15, 80, 130), cvScalar(30, 150, 255),
+ imgThreshed);
+   cvReleaseImage(&imgHSV);
     return imgThreshed;
 }
 
@@ -30,8 +32,8 @@ int main()
     capture = cvCaptureFromCAM(0);
 
     
-//    cvNamedWindow("video");
-//    cvNamedWindow("thresh");
+   // cvNamedWindow("video");
+   // cvNamedWindow("thresh");
 
     while(1)
     {
@@ -76,10 +78,10 @@ int main()
         }
 
 
-        //    cvShowImage("thresh", imgYellowThresh);
+            //cvShowImage("thresh", imgYellowThresh);
              //`:wq
              
-        //         cvShowImage("video", frame);
+              //   cvShowImage("video", frame);
 
 
                 

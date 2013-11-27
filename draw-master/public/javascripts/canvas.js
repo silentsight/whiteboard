@@ -1,7 +1,33 @@
 tool.minDistance = 10;
 tool.maxDistance = 35;
 
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+ $(document).ready(function(e) {
 
+ 	$('#controls').css('display','block').css('width','100%');
+	$('.show').css('display','none');
+	$('.color').css('display','inline-block').css('width',50).css('height',50);
+	$('#size').css('width',150);$('#clear').css('width',100).css('height',50).css('font-size','1.5em');
+	$('canvas').css('display','block');
+	$('header nav').css('font-size','1.5em');
+	$('#send').css('width',100).css('height',50).css('font-size','1.2em');
+	$('.close').css('width',100).css('height',50).css('font-size','1.2em');
+	$('.chath').css('width',100).css('height',50).css('font-size','1.2em');
+	$('#text').css('width',200).css('height',50).css('font-size','1.5em');
+	$('#chat').css('width',550).css('height',300).css('font-size','1.5em');
+	$('.chat').css('left',0).css('position','relative');
+});
+}
+$('.close').on('click', function() {
+
+    $('.chat').css('display','none');
+    $('.chath').css('display','block');
+});
+$('.chath').on('click', function() {
+	 $('.chat').css('display','block');
+	 $('.chath').css('display','none');
+});
+	
 // Initialise Socket.io
 var socket = io.connect('/');
 
@@ -23,14 +49,14 @@ var path_to_send = {};
 // Calculates colors
 var active_color_rgb;
 var active_color_json = {};
-var $opacity = $('#opacity');
+var $opacity = 255;//$('#opacity');
 var update_active_color = function() {
 
     var rgb_array =  $('.active').attr('data-color').split(',');
     var red = rgb_array[0] / 255;
     var green = rgb_array[1] / 255;
     var blue = rgb_array[2] / 255;
-    var opacity =  $opacity.val() / 255;
+    var opacity =  $opacity / 255;
 
     active_color_rgb =  new RgbColor( red, green, blue, opacity );
     active_color_rgb._alpha = opacity;
@@ -85,7 +111,14 @@ function onMouseDown(event) {
 function onMouseDrag(event) {
     
     var step = event.delta / 2;
-    step.angle += 90;
+    var ian = 30;
+	if($('#size').val()<=30) ian = 20;
+	if($('#size').val()>=30 & $('#size').val()<=60) ian = 50;
+	if($('#size').val()>=65) ian = 70;
+	console.log(ian);
+	step.angle += ian;
+	 
+	//step.angle += $('#size').val();
     
     var top = event.middlePoint + step;
     var bottom = event.middlePoint - step;
@@ -101,7 +134,7 @@ function onMouseDrag(event) {
         bottom : bottom
     });
 
-    // Send paths every 100ms
+    // Send paths every 50ms
     if ( !timer_is_active ) {
 
         send_paths_timer = setInterval( function() {
@@ -109,7 +142,7 @@ function onMouseDrag(event) {
             socket.emit('draw:progress', uid, JSON.stringify(path_to_send) );
             path_to_send.path = new Array();
 
-        }, 100);
+        }, 50);
 
     }
 
@@ -137,13 +170,42 @@ function onMouseUp(event) {
 }
 
 
+var borrar = function borrar() {
+			this.activeLayer.remove();
+    		var layer = new Layer();
+			}
 
-
-
-
-
-
-
+function onKeyDown(event) {
+    if(event.key == 'space') {
+    
+    }
+	if( event.code == 27 )//  Escape
+					{
+						paper.project.deactivateChildren();
+						paper.project.deselectChildren();
+						return false;
+					};
+					if( event.key == 'Z')
+					{
+						paper.project.undo();
+						return false;
+					};
+}
+/*
+$(document).addEvent( 'keydown', function( event )
+			{
+					if( event.code == 27 )//  Escape
+					{
+						paper.project.deactivateChildren();
+						paper.project.deselectChildren();
+						return false;
+					};
+					if( k == 'Z' && !SC.keyShift && ( SC.keyCommand || SC.keyControl ))
+					{
+						paper.project.undo();
+						return false;
+					};
+			});*/
 
 // --------------------------------- 
 // CONTROLS EVENTS
@@ -158,9 +220,27 @@ $color.on('click', function() {
 
 });
 
-$opacity.on('change', function() {
+/*$opacity.on('change', function() {
 
     update_active_color();
+
+});*/
+
+var $width = $('.size div');
+$width.on('click', function() {
+
+    $width.removeClass('active');
+    $(this).addClass('active');
+
+
+});
+
+$('div.show').on('click', function() {
+
+	$('div.show div').css('display','block');
+    //$(this).addClass('');
+	
+
 
 });
 
@@ -171,12 +251,21 @@ $opacity.on('change', function() {
 
 
 
-
-
-
 // --------------------------------- 
 // SOCKET.IO EVENTS
-
+ //$(document).ready(function () {
+         
+        socket.on('message', function (data) {
+          $('#chat').append(data.text + '<br />');
+        });
+      
+        $('#send').click(function () {
+          socket.emit('sendMessage', { text: $('#text').val() });
+          $('text').val('');
+		  console.log($('#text').val());
+        });
+    
+   //   });
 
 socket.on('draw:progress', function( artist, data ) {
 
@@ -221,7 +310,7 @@ var $user_count_wrapper = $('#userCountWrapper');
 function update_user_count( count ) {
 
     $user_count_wrapper.css('opacity', 1);
-    $user_count.text( (count === 1) ? " just you, why not invite some friends?" : " " + count );
+    $user_count.text(  " " + count );
 
 }
 

@@ -1,24 +1,54 @@
 <!DOCTYPE html>
-<!-- saved from url=(0022)http://10.42.0.1:3000/ -->
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Pizarron Web en Tiempo Real | CICE 2013</title>
+<title>Whiteboard - Pizarron Web en Tiempo Real | CICE 2013</title>
 <link rel="stylesheet" href="/stylesheets/style.css"><script src="/socket.io/socket.io.js"></script>
 <script src="/javascripts/lib/zepto.js"></script><script src="/javascripts/lib/paper.js"></script><script src="/javascripts/canvas.js" type="text/paperscript" canvas="myCanvas"></script>
 
+
 </head>
 <body>
-<nav><ul><li><a>Previous Sessions</a></li><li><a>About</a></li></ul></nav>
-<article>Realtime Web-based smartboard</article>
-<div id="controls">
-    <div id="userCountWrapper" style="opacity: 1;">People online:<span id="userCount"></span>
-    </div>
-    <div data-color="47,47,47" style="background:rgb(37,37,37);" class="color">
-    </div>
-    <div data-color="109,73,37" style="background:rgb(109,73,37);" class="color active">
-    </div>
+<header>
+<h1>whiteboard</h1>
+<h3>Realtime web-based interactive whiteboard<br>
+<span><a href="https://github.com/silentsight/whiteboard">https://github.com/silentsight/whiteboard</a></span></h3>
+
+<nav><ul><li><a href="/poster.html">Poster</a></li><li><a href="/whiteboard.html">About</a></li><li><a href="/more.html">What's next</a></li>
+<li style="height:50px; overflow:hidden;"><img src="/img/cuceilogo.jpg" width="40px" height="auto"></li>
+</ul>
+<div  class="chat">
+
+<div style="display:inline-block; 
+position: relative;">Little Chat</div><input type="button" value="X" class="close">
+<div style="display:inline-block; 
+position: relative;"><input type="text" name="text" id="text">
+    <input type="button" name="send" id="send" value="send"></div>
+<div id="chat" style="width: 300px; height: 150px; border: 1px solid #06F; margin:5px; display:inline-block; overflow:scroll;"></div>
+</div>
+<input type="button" value="Restore" class="chath" style="position:absolute; display:none; right:0px;">
+</nav>
+
+</header>
+<div style="text-align:center;">
+
+        
+
+    <div class="whiteboard">	
+
+    <div id="controls">
+    <span>Colors:</span>
+    <div data-color="47,47,47" style="background:rgb(37,37,37);" class="color active"></div>
+    
     <div data-color="233,34,41" style="background:rgb(233,34,41);" class="color">
+    </div>
+    <div data-color="77,42,255" style="background:rgb(77,42,255);" class="color">
+    </div>
+    <div data-color="255,255,255" style="background:url(/img/eraser_v3-icon.gif); background-size:22px 22px" class="color">
+    </div><br>
+
+    <div class="show">More
+    <div data-color="109,73,37" style="background:rgb(109,73,37);" class="color ">
     </div>
     <div data-color="57,178,73" style="background:rgb(57,178,73);" class="color">
     </div>
@@ -28,14 +58,27 @@
     </div>
     <div data-color="142,42,140" style="background:rgb(142,42,140);" class="color">
     </div>
-    <div data-color="77,42,255" style="background:rgb(77,42,255);" class="color">
     </div>
-    <div data-color="255,255,255" style="background:rgb(255,255,255);" class="color">
-    </div>
-    <label>Opacity<input type="range" min="0" max="255" value="200" id="opacity"></label>
-    <input type="button" value="Clear" onClick="borrar()" >
-    
+    <br>
+
+  
+    <!--<div class="size"><span>Width</span><div size='60' class="active">Big</div><div size='45'>Small</div><div size='25'>Smaller</div></div>-->
+    <label>Brush Width<input type="range" min="0" max="90" value="20" id="size"></label>
+  <input type="button" value="Clear" onClick="var clearCanvas = true;
+" id="clear" ><div id="userCountWrapper" style="opacity: 1; display:inline; text-align:center;">Connected:<span id="userCount"></span>
+    </div> 
 </div>
-<canvas id="myCanvas" resize="true" width="1280" height="557"></canvas>
+
+    <!--<label>Opacity<input type="range" min="0" max="255" value="255" id="opacity"></label>-->
+    
+
+
+ 
+<canvas id="myCanvas" resize="true" width="95%" height="800"></canvas>
+</div>
+</div>
+<footer>
+<nav><ul><li><a href="/poster.html">Poster</a></li><li><a href="/whiteboard.html">About</a></li><li><a href="/more.html">What's next</a></li></ul></nav>
+<img src="/img/IntelCupLogo.png" width="250" height="auto"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/Intel-logo.jpg" width="50px" height="auto"></footer>
 </body>
 </html>

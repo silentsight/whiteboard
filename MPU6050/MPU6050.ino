@@ -106,15 +106,17 @@ void loop() {
   temp = ((double)tempRaw + 12412.0) / 340.0;
 
   /* Print Data */
-  /*
-  Serial.print(accX);Serial.print("\t");
-   Serial.print(accY);Serial.print("\t");
-   Serial.print(accZ);Serial.print("\t");
+  Serial.write("Acceleromter data: \n");
+  Serial.print(accX);Serial.print("\n");
+   Serial.print(accY);Serial.print("\n");
+   Serial.print(accZ);Serial.print("\n");
+   Serial.write("Gyroscope data: \n");
+   Serial.print(gyroX);Serial.print("\n");
+   Serial.print(gyroY); Serial.print("\n");
+   Serial.print(gyroZ);Serial.print("\n");
    
-   Serial.print(gyroX);Serial.print("\t");
-   Serial.print(gyroY); Serial.print("\t");
-   Serial.print(gyroZ);Serial.print("\t");
-   */
+   Serial.write("Filtered data: \n");
+   Serial.write("X data: \n");
   Serial.print(accXangle);
   Serial.print("\n");
   Serial.print(gyroXangle);
@@ -125,7 +127,7 @@ void loop() {
   Serial.print("\n");
 
   Serial.print("\n");
-
+Serial.write("Y data: \n");
   Serial.print(accYangle);
   Serial.print("\n");
   Serial.print(gyroYangle);

@@ -1,8 +1,28 @@
-body 			{ margin:0; padding:0;}
-#controls 		{ padding:0 0 8px 10px; border-bottom:2px solid #ccc;}
-.color 			{ display:inline-block; width:30px; height:30px; margin:5px; border:none; cursor:pointer; opacity:0.5 }
+
+html {background:#09F; margin:0 auto;}
+body 			{ margin-left:2%; margin-right:2%; padding:0; font-family:Helvetica, sans-serif; background:#FFF; margin-top:0px; margin-bottom:0px; width:auto; }
+article {text-align:center;}
+h1 {font-family:Helvetica, sans-serif; margin-left:20px; margin:0 auto; padding:20px; float:left;}
+h1 a {text-decoration:none; color:#000;}
+#controls 		{ padding:5px; width:60px; }
+.color 			{ display:list-item; list-style:none; width:22px; height:22px; margin:2px auto; border:none; cursor:pointer; opacity:0.5 }
+.size { width:auto;  margin:5px;  cursor:pointer; }
+.size div {  padding:5px;}
+.size div.active {border:2px #666 solid;}
 .color.active	{ opacity:1; }
 nav ul li {display:inline-block; padding:5px;}
 nav ul li a {color:#069; text-decoration:none;}
 nav ul li a:hover {color:#006;}
-article {padding:10px; background:#FC6;}
+ footer {text-align:center;}
+canvas {width:95%; margin:0 auto; border:1px #09F solid; text-align:center;}
+.whiteboard {display:table; vertical-align:top; width:100%;}
+canvas {display:table-cell; width:95%; min-height:600px; vertical-align:top;}
+#controls {display:table-cell; vertical-align:top;}
+div.show {cursor:pointer;}div.show div {display:none;}
+header nav {float:right; display:inline-block; padding-right:20px; text-align:right;}
+#size {width:60px;}
+.note {font-size:1.05em; font-weight:bold; font-style:italic;}
+div h1 {float:none;}
+header h3 {position:relative;  margin-left:20px; margin-top:-20px; float:left; font-size:1.0em; clear:both;}
+header nav {position:relative;margin-top:-50px;}
+.chat {position:absolute; background:#FFF; border:#06F 1px solid; padding:5px; text-align: right; z-index:1000}

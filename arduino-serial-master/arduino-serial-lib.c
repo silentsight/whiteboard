@@ -148,15 +148,15 @@ cox=0;coy=0;
 //clickr=0;clickl=0;
  	b[0] = 0; c[0] = 0;
 
-        /*if(  ) {+
+        if( read(fd, b, 1) == 0 ) {
             usleep( 1 * 1000 );  // wait 1 msec try again
-	}else{*/
-read(fd, b, 1);
+	}else{
+
 cox = b[0];
 printf("cx:%d \n",cox);
-read(fd, c, 1);
+/*read(fd, c, 1);
 coy = c[0];
-printf("cy:%d \n",coy);
+printf("cy:%d \n",coy);*/
 /*read(fd, cl, 1);
 clickl = cl[0];
 printf("cl:%d \n",clickl);
@@ -165,7 +165,7 @@ clickr = cr[0];
 printf("cr:%d \n",clickr);*/   
 
 //if( n==-1) return -1;
-    return 0;
+   } return 0;
 }
 
 

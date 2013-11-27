@@ -122,9 +122,10 @@ move_to (Display *display, int x, int y)
   usleep (1);
 }
 void
-click (Display *display, int button)
+click (  int button)
 {
   // Create and setting up the event
+ Display *display = XOpenDisplay(0);
   XEvent event;
   memset (&event, 0, sizeof (event));
   event.xbutton.button = button;
@@ -269,13 +270,13 @@ while(1){ //To recollect data infinitely
 	//unsigned static int clickl=0, clickr=0;
 
 	serialport_read_mouse(fd, posX, posY);//, clickr, clickl);
-
-        if(lastX>0 && lastY>0 && posX>0 && posY>0)
-        {
+	if(posX==100) click(Button1);
+        //if(lastX>0 && lastY>0 && posX>0 && posY>0)
+       // {
             //printf("position (%d,%d)\n and clicks left:%d right:%d \n", posX-lastX, -posY+lastY, clickl, clickr);
 
-            mouseMove(posX-lastX,-posY+lastY);
-        }
+        //    mouseMove(posX-lastX,-posY+lastY);
+       // }
 
 
 		//mouseMove(cx,cy); //Be careful read X11 manpages
@@ -283,7 +284,7 @@ while(1){ //To recollect data infinitely
 //printf("Cy is: %d \n",cy);
 //
 
-} //click(NULL,1);
+} //
 		break;
 	case 'm' :
 	int i=0,j=0;

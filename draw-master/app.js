@@ -87,6 +87,10 @@ io.sockets.on('connection', function (socket) {
     io.sockets.emit('user:disconnect', active_connections);
   });
 
+ socket.on('sendMessage', function (data) {
+    socket.broadcast.emit('message', data);
+    socket.emit('message', { text: '<strong>'+data.text+'</strong>' }) });
+
   // EVENT: User stops drawing something
   socket.on('draw:progress', function (uid, co_ordinates) {
     
