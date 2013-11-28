@@ -52,7 +52,7 @@ int main()
 
         double moment10 = cvGetSpatialMoment(moments, 1, 0);
         double moment01 = cvGetSpatialMoment(moments, 0, 1);
-        double area = cvGetCentralMoment(moments, 0, 0);
+        double area = cvGetCentralMoment(moments, 0, 0) ;
 
 
 
@@ -63,8 +63,8 @@ int main()
         int lastX = posX;
         int lastY = posY;
 
-        posX = moment10/area;
-        posY = moment01/area;
+        posX = (moment10/area)* 2;
+        posY = (moment01/area)* 2;
 
 
 

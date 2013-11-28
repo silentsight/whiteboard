@@ -32,8 +32,8 @@ int main()
     capture = cvCaptureFromCAM(0);
 
     
-    cvNamedWindow("video");
-    cvNamedWindow("thresh");
+   // cvNamedWindow("video");
+   // cvNamedWindow("thresh");
 
     while(1)
     {
@@ -52,7 +52,7 @@ int main()
 
         double moment10 = cvGetSpatialMoment(moments, 1, 0);
         double moment01 = cvGetSpatialMoment(moments, 0, 1);
-        double area = cvGetCentralMoment(moments, 0, 0);
+        double area = cvGetCentralMoment(moments, 0, 0) * 2;
 
 
 
@@ -78,10 +78,10 @@ int main()
         }
 
 
-            cvShowImage("thresh", imgYellowThresh);
+            //cvShowImage("thresh", imgYellowThresh);
              //`:wq
              
-                 cvShowImage("video", frame);
+              //   cvShowImage("video", frame);
 
 
                 
